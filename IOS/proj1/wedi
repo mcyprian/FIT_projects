@@ -1,0 +1,365 @@
+#!/bin/sh
+
+# Subor: wedi - wrapper textového editoru
+# Projekt 1 pre predmet IOS 2014/2015
+# Autor: Michal Cyprian (xcypri01)
+# Dátum: 8. 3. 2015
+# Popis: Spúšťa textový editor a pamätá si, ktorý súbor bol kedy otvorený,
+#        Ak je argumentom zadaný súbor otvorí tento súbor v zvolenom 
+#        editore, ponúka tiež automatický výber súboru, pri spustení
+#        bez prepínača a zadaného súboru otvorí naposledy editovaný súbor
+#
+# Prepínače:  -m   vyberie súbor ktorý bol v danom adresári editovaný
+#                  najčastejšie.
+#             -l   vypíše zoznam všetkých súborom editovaných v danom 
+#                  adresári.
+#             -b|-a DATUM    vypíše zoznam súborov editovaných v danom
+#                            adresári pred/po zvolenom dátume
+#
+# Môže nasledovať názov adresára, v ktorom sa má operácia vykonať,
+# ak nie je zadaný, použije sa aktuálny pracovný adresár.
+
+
+
+# Prechádza záznamy o adresároch v súbore z WEDI_RC, ak sa aktuálny adresár
+# v súbore nenachádza zapíše ho na koniec.
+
+# Nastavenie lokalizácie
+export LC_ALL=C
+
+# Nastavenie znaku nového riadku ako jediného oddelovača
+IFS='
+'
+
+# Získa a spracuje argumenty programu, ak je ich počet alebo formát
+# neprípustný vypíše chybové hlásenie a ukončí skript
+getArgs() {
+    # Počet argumentov prekročil maximálny prípustný počet
+    if [ $# -gt 3 ]; then
+        echo >&2 "wedi: Nesprávny počet argumentov!" 
+        exit 1
+    fi
+
+    #Ak neboli zadané argumenty otvárame naposledy editovaný súbor
+    if [ $# -eq 0 ]; then
+        dir=$(realpath .)
+        operation=last
+    else
+        while getopts :mlb:a: opt; do
+            optsFound=1
+            case "$opt" in
+            m)    operation=frequent;;
+            l)    operation=listAll;;
+            b)    operation=listBefore; dateArg=$OPTARG;;
+            a)    operation=listAfter;  dateArg=$OPTARG;;
+            *)    echo >&2  "wedi: Nesprávny formát argumentov" 
+                  exit 1;;
+            esac
+        done 
+    fi
+
+    shift $((OPTIND-1))
+
+    # Ak bol zadaný dátum a má nesprávny formát vypíše chybové hlásenie
+    # a ukončí skript
+    if [ "$dateArg" ]; then
+	    dateMatch=$(echo "$dateArg" | egrep "^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
+        if  [ -z "$dateMatch" ]; then
+            echo >&2 "wedi: Nesprávne zadaný formát dátumu"
+            exit 1
+            fi
+        fi
+
+
+    # Kontrola nespracovatelných znakov
+    controlStr=$(echo "$1" | egrep "[%^]")
+    if [ "$controlStr" ]; then
+        echo >&2 "wedi: Argument obsahuje nespracovatelné znaky"
+        exit 1
+    fi
+
+    # Ak bol nastavený prepínač volitelný argument musí byť existujúci
+    # adresár, ak neboli nastavené prepínače operácia je nastavená 
+    # na základe toho, či je to volitelný argument udávajúci adresár 
+    # alebo argument udávajúci súbor
+    if [ "$optsFound" ]; then
+        if [ "$1" ]; then
+            if [ -d "$1" ]; then
+                dir=$(realpath -q "$1")
+            else
+                echo >&2 "wedi: Adresár $1 neexistuje"
+                exit 1
+            fi
+        fi
+    elif [ "$1" ]; then        # Neboli zadané prepínače
+        if [ -d "$1" ]; then
+            dir=$(realpath -q "$1")
+            operation=last
+        else
+            operation=file
+            fullPath=$(printf "%s\n" "$1" | grep "/")
+           # Súbor nie je zadaný s cestou
+           if [ -z "$fullPath" ]; then
+               file="$1"
+               dir=$(realpath .)
+           else
+               file="${1##*/}"
+               dir=$(realpath -q "${1%/*}")
+               if ! [ -d "$dir" ]; then
+                echo >&2 "wedi: Adresár ${1%/*} neexistuje"
+                exit 1
+               fi
+           fi
+                   
+       fi
+    fi
+
+    # Ak nebol adresár nastavený voliteľným argumentom premenná
+    # dir sa nastaví na aktuálny adresár
+    if [ -z "$dir" ]; then
+        dir=$(realpath .)
+    fi
+    # Ak adresár nekončí znakom / pridá sa na koniec názvu
+    dirMatch=$(printf "%s\n" "$dir" | grep '/$')
+    if  [ -z "$dirMatch" ]; then
+        dir="$dir"/
+    fi
+
+    # Prípadné ďalšie argumenty sú navyše
+    if [ "$2" ]; then
+        echo >&2 "wedi: Neočakávaný argument $2"
+        exit 1
+    fi
+}
+
+# Nájde súbor, ktorý bol v adresári  zadanom prvým argumentom editovaný
+# ako posledný, vďaka pridávaniu súborom na koniec stačí vybrať posledný
+# súbor v zozname s číslom vybraného adresára
+getLastFile() {
+    dirNum=$(grep "$1$" $WEDI_RC | cut -f 1)
+    i=1
+    while true; do
+        fileToCheck=$(egrep "^$dirNum	[^	]*	[0-9]{4}-[0-9]{2}-[0-9]{2}"\
+                    $WEDI_RC | cut -f 2 | tail -$i | head -1)
+
+        amount=$(egrep "^$dirNum	[^	]*	[0-9]{4}-[0-9]{2}-[0-9]{2}"\
+                    $WEDI_RC | cut  -f 2 | tail -$i | wc -l)
+
+        # Ak v danom adresári nebol editovaný žiadny súbor vypíše chybu
+        if [ $amount -ne $i ]; then
+            echo >&2 "wedi: v zadanom adresári nebol editovaný "\
+                     "žiadny existujúci súbor."
+            exit 1
+        fi
+
+        # Ak súbor existuje nastaví premennú file a končí funkciu
+        if [ -f "$1$fileToCheck" ]; then
+            file="$fileToCheck"
+            return 0
+        fi
+        i=$((i+1))
+    done
+}
+   
+# Nájde súbor, ktorý bol v adresári zadanom prvým argumentom editovaný
+# najčastejšie
+getFrequent() {
+    dirNum=$(grep "$1$" $WEDI_RC | cut -f 1)
+    max=1
+    # file nastavíme na naposledy otvorený súbor v adresári
+    file=$(egrep "^$dirNum	[^	]*	[0-9]{4}-[0-9]{2}-[0-9]{2}" $WEDI_RC \
+          | cut  -f 2 | tail -1)
+
+    for fileLine in $(egrep "^$dirNum	[^	]*	[0-9]{4}-[0-9]{2}-[0-9]{2}"\
+                    $WEDI_RC); do
+        num=$(printf '%s\n' "$fileLine" | cut -f 4)
+        fileToCheck=$(printf '%s\n' "$fileLine" | cut -f 2)
+        if [ $num -gt $max ]; then
+            if [ -f "$1$fileToCheck" ]; then
+                max="$num"
+                file="$fileToCheck"
+            fi
+        fi
+    done
+
+    # Ak v danom adresári nebol editovaný žiadny súbor vypíše chybu
+    if [ -z "$file" ]; then
+        echo >&2 "wedi: v zadanom adresári nebol editovaný "\
+                 "žiadny existujúci súbor."
+        exit 1
+    fi
+}
+
+# Vypíše zoznam všetkých súborov editovaných v adresári zadanom
+# prvým argumentom
+printAll() {
+    found=0
+    dirNum=$(grep "$1$" $WEDI_RC | cut -f 1)
+    
+    for fileToCheck in  $(egrep "^$dirNum	[^	]*	[0-9]{4}-[0-9]{2}-[0-9]{2}"\
+                        $WEDI_RC | cut -f 2 | sort | uniq ); do
+        if [ -f "$1$fileToCheck" ]; then
+            printf "%s\n" "$fileToCheck"
+            found=1
+        fi
+    done
+    # Ak nebol nájdený žiadny súbor, vypíše chybové hlásenie
+    if [ $found -eq 0 ]; then 
+        echo >&2 "wedi: v zadanom adresári nebol editovaný "\
+                 "žiadny existujúci súbor."
+        exit 1
+    fi
+}
+    
+# Vypíše zoznam všetkých súborov editovaných v adresári zadanom
+# prvým argumentom po dátume zadanom druhým argumentom
+printSelected() {
+    found=0
+    dirNum=$(grep "$1$" $WEDI_RC | cut -f 1)
+    
+    for fileLine in $(egrep "^$dirNum	[^	]*	[0-9]{4}-[0-9]{2}-[0-9]{2}"\
+                    $WEDI_RC | cut -f 2 | sort | uniq); do
+        if [ -f "$1$fileLine" ]; then
+            for fileDateLine in $(egrep \
+                "^$dirNum	$fileLine	[0-9]{4}-[0-9]{2}-[0-9]{2}" $WEDI_RC\
+                  | cut -f 3); do
+                fileDate=$(printf "%s\n" "$fileDateLine" | sed 's/-//g')
+                searchDate=$(printf "%s\n" "$2" | sed 's/-//g')
+
+                # Nastaví relačný operátor podľa tretieho parametra
+                if [ "$3" -eq "1" ]; then
+                    relOper="-le"
+                else
+                    relOper="-ge"
+                fi
+
+                if [ "$searchDate" "$relOper" "$fileDate" ]; then
+                    printf "%s\n" "$fileLine"
+                    found=1
+                    break
+                fi
+         done
+     fi
+    done
+
+    # Ak nebol nájdený žiadny súbor, vypíše chybové hlásenie
+    if [ $found -eq 0 ]; then 
+        echo >&2 "wedi: v zadanom adresári nebol editovaný "\
+                 "žiadny existujúci súbor."
+        exit 1
+    fi
+}
+
+# Zistí či sa záznam o súbore už nachádza, nastaví poradivé číslo
+addFile() {
+                    # Dátum vytriedi iba záznamy o súboroch
+    for fileLine in $(egrep "^$3	[^	]*	[0-9]{4}-[0-9]{2}-[0-9]{2}"\
+                    $WEDI_RC | cut -f 2); do
+
+        # V súbore už je záznam o súbore v danom priečinku
+        if [ $fileLine = $2 ]; then
+            # Nastaví počet otvorení
+            t=$(grep "^$3	$fileLine	" $WEDI_RC | tail -1 | cut -f 4)
+	    t=$((t+1))
+        fi
+    done
+}
+
+writeFile() {
+    for dirLine in $(egrep '^[0-9]*	DIR	*' $WEDI_RC | cut -f 3); do 
+        
+        # V súbore už je záznam o priečinku
+        if [ "$dirLine" = "$1" ]; then
+            ord=$(grep "$dirLine$" $WEDI_RC | cut -f 1)
+
+            addFile $1 $2 $ord
+            # Ak t nebolo nastavené v predchádzajúcom cykle nastaví na 1
+            if [ -z "$t" ]; then
+                t=1
+            fi
+
+            lineToAdd="$ord\t$2\t$(date +"%Y-%m-%d")\t$t"     
+
+          # Pridá záznam o súbore. 
+            printf "$lineToAdd\n" >> $WEDI_RC
+            return 0
+        fi
+    done
+    
+    # Poradové číslo sa nastaví na číslo posledného záznamu o priečinku
+    ord=$(egrep '^[0-9]*	DIR	[^0-9]' $WEDI_RC | tail -1 | cut  -f 1)
+
+    # Ak v súbore nie je záznam o priečinku, nastaví poradové číslo na 0,
+    # ak sa podarilo načítať číslo posledného záznamu inkrementuje sa
+    if [ -z "$ord" ]; then  
+       ord=0
+    else
+        ord=$((ord+1))
+    fi
+
+    lineToAdd="$ord\t$2\t$(date +"%Y-%m-%d")\t1"
+    printf "$ord\tDIR\t$1\n" >> $WEDI_RC
+    printf "$lineToAdd\n" >> $WEDI_RC
+
+    return 0
+}
+
+# Ak utilita realpath nie je dostupná vypíše hlásenie a ukončí skript
+realpath . > /dev/null 2>&1 ||\
+    { echo >&2 "wedi: Utilita realpath nie je dostupná"; exit 1; }
+
+# Ak premenná WEDI_RC nie je nastavená skript končí s chybou
+if [ -z "$WEDI_RC" ]; then
+    echo >&2 "wedi: Premenná WEDI_RC nie je nastavená"
+    exit 1
+fi
+
+# Ak súbor v premennej WEDI_RC neexistuje vytvorí prázdny súbor 
+# s týmto menom.
+if ! [ -f $WEDI_RC ]; then
+    if ! touch "$WEDI_RC" 2> /dev/null ; then
+         echo >&2 "wedi: Premenná WEDI_RC nesprávne nastavená,"\
+            "adresár ${WEDI_RC%/*} neexistuje" 
+         exit 1
+    fi
+fi
+
+getArgs "$@"
+
+# Na základe obsahu premenných operation, dir a file
+# sa vykoná potrebná operácia
+case $operation in
+    "last")         getLastFile "$dir";;
+    "file")         ;;
+    "frequent")     getFrequent "$dir";;
+    "listAll")      printAll "$dir"; exit 0;;
+    "listBefore")   printSelected "$dir" "$dateArg" "0"; exit 0;;
+    "listAfter")    printSelected "$dir" "$dateArg" "1"; exit 0;;
+esac
+
+# Nastaví editor podľa premennej EDITOR ak nie je nastavená, tak 
+#  podľa premennej VISUAL, v prípade že nie je nastavená ani táto
+# premenná vypíše chybu
+if [ "$EDITOR" ]; then
+    editorToUse="$EDITOR"
+elif [ "$VISUAL" ]; then
+    editorToUse="$VISUAL"
+else
+    echo >&2 "wedi: Premenné EDITOR ani VISUAL neboli nastavené."
+    exit 1
+fi
+
+# Pokúsi sa otvoriť nastavený súbor s úplnou cestou v nastavenom editore. 
+# Ak obsah premennej editorToUde nezodpovedá žiadnemu editoru,
+# končí s chybovým hlásením.
+$editorToUse "$dir$file" 2>/dev/null
+
+retValue="$?"
+if [ $retValue -ne 0 ]; then
+    echo >&2 "wedi: Spustenie súboru v nastavenom editore skončilo s "\
+             "chybovou návratovou hodnotou"
+else
+    writeFile "$dir" "$file"
+fi
+
+exit $((retValue))
