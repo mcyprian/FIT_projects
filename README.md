@@ -743,7 +743,7 @@ Je-li hodnotou desetinné číslo (případně s exponentem), bude na výstupu c
 
 Tento skript bude pracovat s těmito parametry:
 
-    • --help ypíše na standardní výstup nápovědu skriptu (nenačítá žádný vstup).
+    • --help vypíše na standardní výstup nápovědu skriptu (nenačítá žádný vstup).
     • --input=filename zadaný vstupní JSON soubor v kódování UTF-8
     • --output=filename textový výstupní XML soubor v kódování UTF-8 s obsahem převedeným ze vstupního souboru
     • -h=subst ve jméně elementu odvozeném z dvojice jméno-hodnota nahraďte každý nepovolený znak ve jméně XML 
@@ -772,3 +772,51 @@ Tento skript bude pracovat s těmito parametry:
                         (číslování začíná od 1, pokud není parametrem --start určeno jinak).
     • --start=n inicializace inkrementálního čitače pro indexaci prvků pole (nutno kombinovat s parametrem --index-items, 
                 jinak chyba s návratovým kódem 1) na zadané kladné celé číslo n včetně nuly (implicitně n = 1).
+
+# IPP/MKA
+
+###Zadanie:
+Vytvořte skript pro zpracování a případnou minimalizaci konečného automatu. Skript bude zpracov-
+ávat textový zápis zadaného konečného automatu, validovat, že je dobře specifikovaný, a generovat
+ekvivalentní minimální konečný automat přesně podle algoritmu z 11. přednášky (snímek 23/35)
+předmětu Formální jazyky a překladače (IFJ).
+Komentáře do konce řádku začínají znakem #. Bílé znaky jako konec řádku (\n i \r), mezera či
+tabulátor jsou ignorovány (až na později definované případy). Stav je reprezentován identifikátorem jazyka C, který nezač
+íná ani nekončí podtržítkem. Vstupní symbol je reprezentovaný libovolným znakem uzavřeným v apostrofech.
+U stavů i vstupních symbolů záleží na velikosti písmen. Jako vstupní symboly lze využít i metaznaky popisu automatu 
+a všechny bílé znaky, tj. '(', ')', '{', '}', '''', '-', '>', ',', '.', '#', ' ', znak konce řádku v apostrofech
+a znak tabulátoru v apostrofech. Apostrof musí být navíc uvnitř apostrofů zdvojený. Prázdná dvojice apostrofů ''
+reprezentuje prázdný řetězec.
+Celý konečný automat je zapisován podobnou notací jako ve formálních jazycích (IFJ). Celý konečný automat je pětice uzavřená do kulatých závorek. Každá komponenta kromě komponenty určující počáteční stav je dále uzavřena ve složených závorkách a od ostatních komponent oddělena čárkou. Jednotlivé prvky množin reprezentujících komponenty (opět kromě počátečního stavu) jsou
+odděleny také čárkou.
+Nejprve je definována konečná množina stavů, následuje neprázdná vstupní abeceda, poté definice množiny pravidel,
+dále určení počátečního stavu a nakonec množina koncových stavů. Množina pravidel je popsána seznamem pravidel. Každé pravidlo je zapsáno ve tvaru: pa->q, kde p je výchozí stav, a je čtený vstupní symbol (případně reprezentace prázdného řetězce), následuje dvojznak pomlčka s většítkem reprezentující šipku (tento dvojznak nesmí být rozdělen jiným znakem) a poslední
+část pravidla q určuje cílový stav. Příklad vstupního zápisu konečného automatu:
+Příklad konečného automatu ve vstupním formátu úlohy MKA
+ ```
+({s, f,q4,q2 , q1, # nějaký komentář
+q3}, # nějaký komentář
+{'á', ')' }, {
+s 'á'->f, f  'á' ->s, s')'->q3, s ')' -> q4,
+q1 'á'->q1, q2'á' -> q2, q3 'á'->q4, q4 'á'->
+q3, q1 ')' -> s, q2')'
+->f , q3 ')'->q1, q4')'->q2  # další komentář
+}, # následuje komponenta definující počáteční stav
+s
+, {f, s } ) # koncové stavy a ukončení definice automatu
+\# zde může následovat libovolný počet bílých znaků nebo kome
+ntářů.
+ ```
+    • --help vypíše na standardní výstup nápovědu skriptu (nenačítá žádný vstup).
+    • --input=filename zadaný vstupní JSON soubor v kódování UTF-8
+    • --output=filename textový výstupní XML soubor v kódování UTF-8 s obsahem převedeným ze vstupního souboru
+    • -f, --find-non-finishing hledá  neukončující  stav  zadaného  dobře  specifikovaného konečného automatu (automat se
+                               nevypisuje). Nalezne-li jej, bez odřádkování jej vypíše na výstup; jinak vypíše pouze
+                               číslici 0. (Před hledáním se provede validace na dobrou specifikovanost automatu.) Parametr
+                               nelze kombinovat s parametrem -m (resp.--minimize).
+    • -m, --minimize provede minimalizaci dobře specifikovaného konečného automatu, nelze kombinovat s parametrem
+                    -f (resp.--find-non-finishing).    
+    • -i,--case-insensitive nebude brán ohled na velikost znaků při porovnávání symbolů či stavů (tj. a = A, ahoj = AhOj
+                            nebo A b = a B); ve výstupu potom budou všechna velká písmena převedena na malá.
+    Pokud nebude uveden parametr -m ani -f, tak dojde pouze k validaci načteného dobře specifikovaného konečného automatu 
+    a k jeho normalizovanému výpisu.
