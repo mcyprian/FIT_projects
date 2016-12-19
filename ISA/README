@@ -1,0 +1,34 @@
+Programování síťové služby - DHCP server
+predmet ISA, FIT VUT Brno 2015/2016
+
+Autor: Michal Cyprian <xcypri01@stud.fit.vutbr.cz>
+
+Program dserver funguje ako jednoduchý DHCP server pre IPv4. Server beží na štandartnom porte,
+podporuje správy DISCOVER, OFFER, REQUEST, ACK, NACK a RELEASE.
+
+Spustiteľný program sa vytvorí príkazom make.
+
+Príklad spustenia:
+./dserver -p 10.0.0.0/24 [-e 10.0.0.2,10.0.0.5]
+
+Parametre:
+    -p <ip_adresa/maska>    rozsah pridelovaných IP adries
+    -e <ip_adresy>          rezervované IP adresy ktoré sa nepridelujú oddelené čiarkou (volitelný
+                            parameter)
+
+Pri spustení programu sa predpokladá že stroj na ktorom server beží má v sieti
+pridelenú prvú použiteľnú IP adresu z rozsahu zadaného parametrom -p.
+
+Zoznam odovzdaných súborov:
+   - dserver.hh
+   - dserver.cc
+   - address_pool.hh
+   - address_pool.cc
+   - options.hh
+   - options.cc 
+   - message_codes.hh
+   - constants.hh
+   - Makefile
+   - README
+   - manual.pdf
+
