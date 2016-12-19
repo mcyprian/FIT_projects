@@ -1,0 +1,136 @@
+START PRE KONFIGURACIU:
+Pocet zamestnancov: 12
+Kapacita pasu : 300
+Pocet ramp: 2
+Cas prichodu kamionov: 150 min
+Pocet zamestnancov obsluhujucich pas: 2
+Pocet zamestnancov obsluhujucich sken: 1
+Pocet zamestnancov obsluhujucich balenie: 1
+Pocet baliacich procesov vychod: 3
+Pocet baliacich procesov stred: 3
+Pocet baliacich procesov zapad: 2
+Pocet pridavnych pasov: 2
++----------------------------------------------------------+
+| STATISTIC Doba kamionu stravena v stredisku              |
++----------------------------------------------------------+
+|  Min = 47.9876                 Max = 789.457             |
+|  Number of records = 7                                   |
+|  Average value = 380.898                                 |
++----------------------------------------------------------+
++----------------------------------------------------------+
+| HISTOGRAM Doba pocas ktoreho bol pas preplneny           |
++----------------------------------------------------------+
+| STATISTIC                                                |
++----------------------------------------------------------+
+|  Min = 5.47919                 Max = 58.6031             |
+|  Number of records = 246                                 |
+|  Average value = 15.9112                                 |
+|  Standard deviation = 14.551                             |
++----------------------------------------------------------+
+|    from    |     to     |     n    |   rel    |   sum    |
++------------+------------+----------+----------+----------+
+|      8.000 |      8.500 |        4 | 0.016260 | 0.418699 |
+|      8.500 |      9.000 |       14 | 0.056911 | 0.475610 |
+|      9.000 |      9.500 |        4 | 0.016260 | 0.491870 |
+|      9.500 |     10.000 |        7 | 0.028455 | 0.520325 |
+|     10.000 |     10.500 |        1 | 0.004065 | 0.524390 |
+|     10.500 |     11.000 |        3 | 0.012195 | 0.536585 |
+|     11.000 |     11.500 |        2 | 0.008130 | 0.544715 |
+|     11.500 |     12.000 |        1 | 0.004065 | 0.548780 |
+|     12.000 |     12.500 |        9 | 0.036585 | 0.585366 |
+|     12.500 |     13.000 |        5 | 0.020325 | 0.605691 |
++------------+------------+----------+----------+----------+
+
++----------------------------------------------------------+
+| HISTOGRAM Doba pocas ktoreho bol vstup skenu prazdny     |
++----------------------------------------------------------+
+| STATISTIC                                                |
++----------------------------------------------------------+
+|  Min = 25.4037                 Max = 168.162             |
+|  Number of records = 24                                  |
+|  Average value = 84.9942                                 |
++----------------------------------------------------------+
+|    from    |     to     |     n    |   rel    |   sum    |
++------------+------------+----------+----------+----------+
+|     20.000 |     25.000 |        0 | 0.000000 | 0.000000 |
+|     25.000 |     30.000 |        6 | 0.250000 | 0.250000 |
+|     30.000 |     35.000 |        0 | 0.000000 | 0.250000 |
+|     35.000 |     40.000 |        0 | 0.000000 | 0.250000 |
+|     40.000 |     45.000 |        0 | 0.000000 | 0.250000 |
+|     45.000 |     50.000 |        0 | 0.000000 | 0.250000 |
+|     50.000 |     55.000 |        6 | 0.250000 | 0.500000 |
+|     55.000 |     60.000 |        0 | 0.000000 | 0.500000 |
+|     60.000 |     65.000 |        0 | 0.000000 | 0.500000 |
+|     65.000 |     70.000 |        0 | 0.000000 | 0.500000 |
++------------+------------+----------+----------+----------+
+
++----------------------------------------------------------+
+| STORE Zamestnanci depa                                   |
++----------------------------------------------------------+
+|  Capacity = 12  (12 used, 0 free)                        |
+|  Time interval = 0 - 1200                                |
+|  Number of Enter operations = 453                        |
+|  Minimal used capacity = 0                               |
+|  Maximal used capacity = 12                              |
+|  Average used capacity = 9.90855                         |
++----------------------------------------------------------+
+  Input queue 'Zamestnanci depa.Q'
++----------------------------------------------------------+
+| QUEUE Q                                                  |
++----------------------------------------------------------+
+|  Time interval = 0 - 1200                                |
+|  Incoming  314                                           |
+|  Outcoming  305                                          |
+|  Current length = 9                                      |
+|  Maximal length = 12                                     |
+|  Average length = 3.53524                                |
+|  Minimal time = 0.00409659                               |
+|  Maximal time = 89.7559                                  |
+|  Average time = 13.2921                                  |
+|  Standard deviation = 15.627                             |
++----------------------------------------------------------+
+
++----------------------------------------------------------+
+| STORE Nakladacie rampy                                   |
++----------------------------------------------------------+
+|  Capacity = 2  (0 used, 2 free)                          |
+|  Time interval = 0 - 1200                                |
+|  Number of Enter operations = 18                         |
+|  Minimal used capacity = 0                               |
+|  Maximal used capacity = 2                               |
+|  Average used capacity = 0.566336                        |
++----------------------------------------------------------+
+  Input queue 'Nakladacie rampy.Q'
++----------------------------------------------------------+
+| QUEUE Q                                                  |
++----------------------------------------------------------+
+|  Time interval = 0 - 1200                                |
+|  Incoming  1                                             |
+|  Outcoming  1                                            |
+|  Current length = 0                                      |
+|  Maximal length = 1                                      |
+|  Average length = 0.00439157                             |
+|  Minimal time = 5.26988                                  |
+|  Maximal time = 5.26988                                  |
+|  Average time = 5.26988                                  |
++----------------------------------------------------------+
+
+Pocet Kamionov:
+    prislo: 13
+    odislo: 7
+Komponenty:
+    priate 6687
+    na pase 178
+    Na pridavnom pase 139
+    Na pridavnom pase 129
+Roztriedene:
+    vychod: 8
+    stred 8
+    zapad 3
+Spracovane:
+    vychod: 76
+    stred 151
+    zapad 537
+Vstupny sken: 16713 vystupny sken 16217
+Rozbite 21
+Spracovane 69.39%
