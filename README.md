@@ -58,21 +58,21 @@ chybovým hlášením na příslušný výstup a odpovídajícím návratovým k
 ### Zadanie:
 #### Popis projektu
 Implementujte výpočet vzdálenosti a výšky měřeného objektu pomocí údajů ze senzorů 
-natočení měřicího přístroje. Výpočet proveďte pouze pomocí matematických operací +,-,*,/. 
+natočení měřicího přístroje. Výpočet proveďte pouze pomocí matematických operací ``+``,``-``,``*``,``/``. 
 
 #### Syntax spuštění
 
 Program se spouští v následující podobě:
 
-./proj2 --help
+``./proj2 --help``
 
 nebo
 
-./proj2 --tan A N M
+``./proj2 --tan A N M``
 
 nebo
 
-./proj2 [-c X] -m A [B]
+``./proj2 [-c X] -m A [B]``
 
 #### Argumenty programu:
 
@@ -156,34 +156,34 @@ přes které vede cesta z vchodu bludiště do jeho východu
 
 Program se spouští v následující podobě:
 
-./proj3 --help
+``./proj3 --help``
 
 nebo
 
-./proj3 --test soubor.txt
+``./proj3 --test soubor.txt``
 
 nebo
 
-./proj3 --rpath R C bludiste.txt
+``./proj3 --rpath R C bludiste.txt``
 
 nebo
 
-./proj3 --lpath R C bludiste.txt
+``./proj3 --lpath R C bludiste.txt``
 
 nebo (nepovinné, prémiové)
 
-./proj3 --shortest R C bludiste.txt
+``./proj3 --shortest R C bludiste.txt``
 
 #### Argumenty programu:
 
-    --help způsobí, že program vytiskne nápovědu používání programu a skončí.
-    --test pouze zkontroluje, že soubor daný druhým argumentem programu obsahuje řádnou definici mapy bludiště. 
+* ``--help`` způsobí, že program vytiskne nápovědu používání programu a skončí.
+* ``--test`` pouze zkontroluje, že soubor daný druhým argumentem programu obsahuje řádnou definici mapy bludiště. 
         V případě, že formát obrázku odpovídá definici (viz níže), vytiskne Valid. V opačném případě 
         (např. ilegálních znaků, chybějících údajů nebo špatných hodnot) program tiskne Invalid.
-    --rpath hledá průchod bludištěm na vstupu na řádku R a sloupci C. Průchod hledá pomocí pravidla pravé ruky 
+* ``--rpath`` hledá průchod bludištěm na vstupu na řádku R a sloupci C. Průchod hledá pomocí pravidla pravé ruky 
         (pravá ruka vždy na zdi).
-    --lpath hledá průchod bludištěm na vstupu na řádku R a sloupci C, ale za pomoci pravidla levé ruky.
-    --shortest (prémiové řešení) hledá nejkratší cestu z bludiště při vstupu na řádku R a sloupci C.
+* ``--lpath`` hledá průchod bludištěm na vstupu na řádku R a sloupci C, ale za pomoci pravidla levé ruky.
+* ``--shortest`` (prémiové řešení) hledá nejkratší cestu z bludiště při vstupu na řádku R a sloupci C.
     
  Bludiště je aproximováno do mapy trojúhelníkových políček. Mapa bludiště je uložena v textovém souboru obsahující 
  číselné údaje oddělené bílými znaky. První dva číselné údaje reprezentují velikost obrázku v počtu trojúhelníkových 
@@ -267,16 +267,16 @@ bez parametrů, vybere skript soubor, který má být editován.
 
 ###### JMÉNO
 
-    wedi - wrapper textového editoru s možností automatického výběru souboru
+``wedi`` - wrapper textového editoru s možností automatického výběru souboru
 
 ###### POUŽITÍ
-
+```
     wedi [ADRESÁŘ]
     wedi -m [ADRESÁŘ]
     wedi SOUBOR
     wedi -l [ADRESÁŘ]
     wedi -b|-a DATUM [ADRESÁŘ]
-
+```
 ###### POPIS
 
     Pokud byl skriptu zadán soubor, bude editován.
@@ -310,9 +310,9 @@ bez parametrů, vybere skript soubor, který má být editován.
     Skript nebere v potaz soubory, se kterými dříve počítal a které jsou nyní smazané.
     Při rozhodování relativní cesty adresáře je doporučeno používat reálnou cestu (realpath), např.:
 
-$ wedi .
+``$ wedi .``
 
-$ wedi `pwd`
+``$ wedi `pwd` ``
 
 #### Implementační detaily
 
@@ -334,7 +334,7 @@ vodíku. Poté se spojí do molekuly vody a proces se opakuje.
 #### Detailní specifikace úlohy
 ##### Spuštění
 
-$ ./h2o N GH GO B
+``$ ./h2o N GH GO B``
 
 kde
 
@@ -734,43 +734,43 @@ Tento program otestujte se stejnými vstupy jako u staticky sestavené verze.
 ### Zadanie:
 Vytvořte skript pro konverzi JSON formátu (viz RFC 4627) do XML. Každému prvku z JSON formátu 
 (objekt, pole, dvojice jméno-hodnota) bude odpovídat jeden párový element se jménem podle jména dvojice 
-a obsahem podle hodnoty dvojice. Každé pole bude obaleno párovým elementem <array> a každý prvek pole bude obalen 
-párovým elementem <item>. JSON hodnoty typu string a number a JSON literály true, false a null budou transformovány
+a obsahem podle hodnoty dvojice. Každé pole bude obaleno párovým elementem ``<array>`` a každý prvek pole bude obalen 
+párovým elementem ``<item>``. JSON hodnoty typu string a number a JSON literály true, false a null budou transformovány
 v závislosti na parametrech skriptu na atribut value daného elementu s odpovídající hodnotou (stejného tvaru jako v JSON vstupu; 
 nezapomeňte na požadavek ouvozovkování atributů v XML) nebo na textový element v případě hodnoty typu string a number 
-či na párový element (ve zkráceném zápise) <true/>, <false/> a <null/>. 
+či na párový element (ve zkráceném zápise) ``<true/>``, ``<false/>`` a ``<null/>``. 
 Je-li hodnotou desetinné číslo (případně s exponentem), bude na výstupu celé číslo zaokrouhleno dolů (čísla mimo meze neuvažujte).
 
 Tento skript bude pracovat s těmito parametry:
 
-    • --help vypíše na standardní výstup nápovědu skriptu (nenačítá žádný vstup).
-    • --input=filename zadaný vstupní JSON soubor v kódování UTF-8
-    • --output=filename textový výstupní XML soubor v kódování UTF-8 s obsahem převedeným ze vstupního souboru
-    • -h=subst ve jméně elementu odvozeném z dvojice jméno-hodnota nahraďte každý nepovolený znak ve jméně XML 
+* ``--help`` vypíše na standardní výstup nápovědu skriptu (nenačítá žádný vstup).
+* ``--input=filename`` zadaný vstupní JSON soubor v kódování UTF-8
+* ``--output=filename`` textový výstupní XML soubor v kódování UTF-8 s obsahem převedeným ze vstupního souboru
+* ``-h=subst`` ve jméně elementu odvozeném z dvojice jméno-hodnota nahraďte každý nepovolený znak ve jméně XML 
                značky řetězcem subst. Implicitně (i při nezadaném parametru -h) uvažujte nahrazování znakem pomlčka (-).
                Vznikne-li po nahrazení invalidní jméno XML elementu, skončete s chybou a návratovým kódem 51.
-    •-n negenerovat XML hlavičku na výstup skriptu (vhodné například v případě kombinování více výsledků)
-    • -r=root-element jméno párového kořenového elementu obalujícího výsledek. Pokud nebude zadán, 
+* ``-n`` negenerovat XML hlavičku na výstup skriptu (vhodné například v případě kombinování více výsledků)
+* ``-r=root-element`` jméno párového kořenového elementu obalujícího výsledek. Pokud nebude zadán, 
                       tak se výsledek neobaluje kořenovým elementem, ač to potenciálně porušuje validitu XML 
                       (skript neskončí s chybou). Zadání řetězce root-element vedoucího na nevalidní XML značku 
                       ukončí skript s chybou a návratovým kódem 50 (nevalidní znaky nenahrazujte).
-    • --array-name=array-element tento parametr umožní přejmenovat element obalující pole z implicitní hodnoty array 
+* ``--array-name=array-element`` tento parametr umožní přejmenovat element obalující pole z implicitní hodnoty array 
                                  na array-element. Zadání řetězce array-element vedoucího na nevalidní XML značku ukončí 
                                  skript s chybou a návratovým kódem 50 (nevalidní znaky nenahrazujte).
-    • --item-name=item-element analogicky, tímto parametrem lze změnit jméno elementu pro prvky pole 
+* ``--item-name=item-element`` analogicky, tímto parametrem lze změnit jméno elementu pro prvky pole 
                                (implicitní hodnota je item). Zadání řetězce item-element vedoucího na nevalidní
                                XML značku ukončí skript s chybou a návratovým kódem 50 (nevalidní znaky nenahrazujte).
-    • -s hodnoty (v dvojici i v poli) typu string budou transformovány na textové elementy místo atributů.
-    • -i hodnoty (v dvojici i v poli) typu number budou transformovány na textové elementy místo atributů.
-    • -l hodnoty literálů (true, false, null) budou transformovány na elementy <true/>, <false/> a <null/> místo na atributy.
-    • -c tento přepínač oproti implicitnímu chování aktivuje překlad problematických znaků. Pro XML 
+* ``-s`` hodnoty (v dvojici i v poli) typu string budou transformovány na textové elementy místo atributů.
+* ``-i`` hodnoty (v dvojici i v poli) typu number budou transformovány na textové elementy místo atributů.
+* ``-l`` hodnoty literálů (``true``, ``false``, ``null``) budou transformovány na elementy ``<true/>``, ``<false/>`` a ``<null/>`` místo na atributy.
+* ``-c`` tento přepínač oproti implicitnímu chování aktivuje překlad problematických znaků. Pro XML 
          problematické znaky s UTF-8 kódem menším jak 128 ve vstup ních řetězcových hodnotách (ve dvojicích i polích) 
-         konvertujte na odpovídající zápisy v XML pomocí metaznaku & (např. &amp;, &lt;, &gt; atd.). 
+         konvertujte na odpovídající zápisy v XML pomocí metaznaku & (např. ``&amp;``, ``&lt;``, ``&gt;`` atd.). 
          Ostatní problematické znaky konvertovat nemusíte.
-    • -a, --array-size u pole bude doplněn atribut size s uvedením počtu prvků v tomto poli.
-    • -t, --index-items ke každému prvku pole bude přidán atribut index s určením indexu prvku v tomto poli 
+* ``-a, --array-size`` u pole bude doplněn atribut size s uvedením počtu prvků v tomto poli.
+* ``-t, --index-items`` ke každému prvku pole bude přidán atribut index s určením indexu prvku v tomto poli 
                         (číslování začíná od 1, pokud není parametrem --start určeno jinak).
-    • --start=n inicializace inkrementálního čitače pro indexaci prvků pole (nutno kombinovat s parametrem --index-items, 
+* ``--start=n`` inicializace inkrementálního čitače pro indexaci prvků pole (nutno kombinovat s parametrem --index-items, 
                 jinak chyba s návratovým kódem 1) na zadané kladné celé číslo n včetně nuly (implicitně n = 1).
 
 # IPP/MKA
@@ -793,7 +793,8 @@ Nejprve je definována konečná množina stavů, následuje neprázdná vstupn�
 dále určení počátečního stavu a nakonec množina koncových stavů. Množina pravidel je popsána seznamem pravidel. Každé pravidlo je zapsáno ve tvaru: pa->q, kde p je výchozí stav, a je čtený vstupní symbol (případně reprezentace prázdného řetězce), následuje dvojznak pomlčka s většítkem reprezentující šipku (tento dvojznak nesmí být rozdělen jiným znakem) a poslední
 část pravidla q určuje cílový stav. Příklad vstupního zápisu konečného automatu:
 Příklad konečného automatu ve vstupním formátu úlohy MKA
- ```
+
+```
 ({s, f,q4,q2 , q1, # nějaký komentář
 q3}, # nějaký komentář
 {'á', ')' }, {
@@ -806,17 +807,18 @@ s
 , {f, s } ) # koncové stavy a ukončení definice automatu
 \# zde může následovat libovolný počet bílých znaků nebo kome
 ntářů.
- ```
-    • --help vypíše na standardní výstup nápovědu skriptu (nenačítá žádný vstup).
-    • --input=filename zadaný vstupní JSON soubor v kódování UTF-8
-    • --output=filename textový výstupní XML soubor v kódování UTF-8 s obsahem převedeným ze vstupního souboru
-    • -f, --find-non-finishing hledá  neukončující  stav  zadaného  dobře  specifikovaného konečného automatu (automat se
+```
+
+* ``--help`` vypíše na standardní výstup nápovědu skriptu (nenačítá žádný vstup).
+* ``--input=filename`` zadaný vstupní JSON soubor v kódování UTF-8
+* ``--output=filename`` textový výstupní XML soubor v kódování UTF-8 s obsahem převedeným ze vstupního souboru
+* ``-f, --find-non-finishing`` hledá  neukončující  stav  zadaného  dobře  specifikovaného konečného automatu (automat se
                                nevypisuje). Nalezne-li jej, bez odřádkování jej vypíše na výstup; jinak vypíše pouze
                                číslici 0. (Před hledáním se provede validace na dobrou specifikovanost automatu.) Parametr
                                nelze kombinovat s parametrem -m (resp.--minimize).
-    • -m, --minimize provede minimalizaci dobře specifikovaného konečného automatu, nelze kombinovat s parametrem
-                    -f (resp.--find-non-finishing).    
-    • -i,--case-insensitive nebude brán ohled na velikost znaků při porovnávání symbolů či stavů (tj. a = A, ahoj = AhOj
+* ``-m, --minimize`` provede minimalizaci dobře specifikovaného konečného automatu, nelze kombinovat s parametrem
+                    ``-f`` (resp.``--find-non-finishing``).    
+* ``-i,--case-insensitive`` nebude brán ohled na velikost znaků při porovnávání symbolů či stavů (tj. a = A, ahoj = AhOj
                             nebo A b = a B); ve výstupu potom budou všechna velká písmena převedena na malá.
-    Pokud nebude uveden parametr -m ani -f, tak dojde pouze k validaci načteného dobře specifikovaného konečného automatu 
+    Pokud nebude uveden parametr ``-m`` ani ``-f``, tak dojde pouze k validaci načteného dobře specifikovaného konečného automatu 
     a k jeho normalizovanému výpisu.
