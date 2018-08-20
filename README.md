@@ -272,11 +272,11 @@ bez parametrů, vybere skript soubor, který má být editován.
 
 ###### POUŽITÍ
 ```
-    wedi [ADRESÁŘ]
-    wedi -m [ADRESÁŘ]
-    wedi SOUBOR
-    wedi -l [ADRESÁŘ]
-    wedi -b|-a DATUM [ADRESÁŘ]
+wedi [ADRESÁŘ]
+wedi -m [ADRESÁŘ]
+wedi SOUBOR
+wedi -l [ADRESÁŘ]
+wedi -b|-a DATUM [ADRESÁŘ]
 ```
 ###### POPIS
 
