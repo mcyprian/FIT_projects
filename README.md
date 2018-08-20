@@ -3,14 +3,14 @@
 
 # IZP/proj1
 
-###Zadanie:
-####Popis projektu
+### Zadanie:
+#### Popis projektu
 
 Implementujte jednoduchý tabulkový kalkulátor. Program bude implementovat funkce vyhledání maxima, minima,
 funkce součtu a aritmetického průměru vybraných buněk. Tabulku ve formě textového souboru bude program očekávat
 na standardním vstupu. Požadovanou operaci a výběr buněk specifikuje uživatel v argumentu příkazové řádky. 
 
-####Argumenty programu:
+#### Argumenty programu:
 
 
     --help způsobí, že program vytiskne nápovědu používání programu a skončí.
@@ -30,14 +30,14 @@ na standardním vstupu. Požadovanou operaci a výběr buněk specifikuje uživa
         řádků a sloupců). 0 < A <= B, 0 < X <= Y.
 
 
-####Implementační detaily
+#### Implementační detaily
 
 Program čte zpracovávanou tabulku ze standardního vstupu (stdin). Veškeré informace vypisuje na standardní 
 výstup (stdout). Řádek tabulky je zakončen znakem konce řádku. Sloupce tabulky (resp. buňky na řádku) jsou odděleny 
 jedním a více bílých znaků. Buňka může obsahovat číslo nebo text (bez bílých znaků). Maximální délka jednoho řádku 
 je 1024 znaků.
 
-####Operace a jejich výstup
+#### Operace a jejich výstup
 
 Operace select vypíše seznam hodnot z daného výběru. Každá hodnota bude vypsána na jeden řádek. V případě, 
 že hodnota je číslo, bude vypsáno formátem %.10g funkce printf. V případě, že výběr zahrnuje více řádků 
@@ -46,7 +46,7 @@ zleva doprava,pak hodnoty následujícího řádku.
 Operace min, max, sum a avg pracují pouze nad buňkami obsahující číselné údaje. Funkce vypíší výsledek jako 
 jedno číslo formátu %.10g na samostatný řádek.
 
-####Neočekávané chování
+#### Neočekávané chování
 
 Na chyby za běhu programu reagujte obvyklým způsobem: Na neočekávaná vstupní data, argumenty příkazového řádku, 
 formát vstupních dat nebo chyby při volání funkcí reagujte přerušením programu se stručným a výstižným 
@@ -55,12 +55,12 @@ chybovým hlášením na příslušný výstup a odpovídajícím návratovým k
 
 # IZP/proj2
 
-###Zadanie:
-####Popis projektu
+### Zadanie:
+#### Popis projektu
 Implementujte výpočet vzdálenosti a výšky měřeného objektu pomocí údajů ze senzorů 
 natočení měřicího přístroje. Výpočet proveďte pouze pomocí matematických operací +,-,*,/. 
 
-####Syntax spuštění
+#### Syntax spuštění
 
 Program se spouští v následující podobě:
 
@@ -74,7 +74,7 @@ nebo
 
 ./proj2 [-c X] -m A [B]
 
-####Argumenty programu:
+#### Argumenty programu:
 
     --help způsobí, že program vytiskne nápovědu používání programu a skončí.
     --tan srovná přesnosti výpočtu tangens úhlu A (v radiánech) mezi voláním tan z matematické knihovny, 
@@ -88,7 +88,7 @@ nebo
         Argument -c nastavuje výšku měřicího přístroje c pro výpočet. Výška c je dána argumentem X (0 < X <= 100). 
         Argument je volitelný - implicitní výška je 1.5 metrů.
 
-####Implementační detaily
+#### Implementační detaily
 
 Je zakázané použít funkce z matematické knihovny. Jedinou výjimkou je funkce tan použitá pouze pro srovnání výpočtů,
 funkce isnan a isinf a konstanty NAN a INF. Ve všech výpočtech používejte typ double. Uvažujte přesnost na 10 míst. 
@@ -98,7 +98,7 @@ Implementace tangens
 
 Funkci tangens implementujte dvakrát a to pomocí Taylorova polynomu a zřetězených zlomků.
 
-######1. podúkol
+###### 1. podúkol
 
 Tangens pomocí Taylorova polynomu implementujte ve funkci s prototypem:
 
@@ -109,7 +109,7 @@ kde x udává úhel a n rozvoj polynomu (počet členů). Taylorův polynom pro 
 přičemž řada čitatelů ve zlomcích koeficientů je zde a řada jmenovatelů ve zlomcích koeficientů je zde. 
 Ve svém programu použijte pouze 13 prvních koeficientů. 
 
-######2. podúkol
+###### 2. podúkol
 
 Tangens pomocí zřetězených zlomků (viz demonstrační cvičení) implementujte ve funkci s prototypem:
 
@@ -136,7 +136,7 @@ I M T TE C CE
 Počet iterací udává interval daný argumenty programu <N;M>. Výstup programu tedy bude obsahovat N-M+1 řádků. 
 První řádek tedy začíná číslem N.
 
-######Měření
+###### Měření
 
 Pro měření vzdálenosti a výšky použijte vámi implementovanou funkci cfrac_tan.
 
@@ -146,13 +146,13 @@ Oba číselné údaje vypisujte formátovaným výstupem pomocí "%.10e", každ�
 
 # IZP/proj3
 
-###Zadanie:
-####Popis projektu
+### Zadanie:
+#### Popis projektu
 Vytvořte program, který v daném bludišti a jeho vstupu najde průchod ven. Bludiště je uloženo v textovém 
 souboru ve formě obdélníkové matice celých čísel. Cílem programu je výpis souřadnic políček bludiště, 
 přes které vede cesta z vchodu bludiště do jeho východu
 
-####Syntax spuštění
+#### Syntax spuštění
 
 Program se spouští v následující podobě:
 
@@ -174,7 +174,7 @@ nebo (nepovinné, prémiové)
 
 ./proj3 --shortest R C bludiste.txt
 
-####Argumenty programu:
+#### Argumenty programu:
 
     --help způsobí, že program vytiskne nápovědu používání programu a skončí.
     --test pouze zkontroluje, že soubor daný druhým argumentem programu obsahuje řádnou definici mapy bludiště. 
@@ -200,12 +200,12 @@ Mapa bludiště je validní, pokud popisuje všechny políčka a všechny soused
 
 Příklad: Nechť políčko na souřadnici 2,3 má stěnu na levé a spodní hranici. Potom jeho hodnota v matici bude 1+0+4=5. 
 
-####Implementační detaily
+#### Implementační detaily
 
 Cesta bude tištěna jako posloupnost souřadnic políček, přes které cesta vede. Každá souřadnice bude vypsána na 
 jeden řádek ve formátu řádek,sloupec. Čísla řádků a sloupců začínají od 1.
 
-######1. podúkol
+###### 1. podúkol
 
 Mapu implementujte pomocí dvojrozměrného pole s využitím následujícího datového typu:
 ```
@@ -219,7 +219,7 @@ kde rows je počet řádků, cols je počet sloupců a cells je ukazatel na pole
 jednotlivých políček na daném řádku (pole typu char). Implementujte podpůrné funkce tohoto typu (inicializace mapy, 
 načtení mapy, uvolnění mapy).
 
-######2. podúkol
+###### 2. podúkol
 
 Ve vámi implementovaných algoritmech vyhledávání útvarů neprovádějte dotazy na typ hranice přímým přístupem do paměti 
 (tj. do struktury bitmapy), ale striktně pomocí mapovací funkce s následujícím prototypem 
@@ -231,7 +231,7 @@ Parametr map je platný ukazatel na strukturu mapy, r a c je souřadnice (řáde
 a border označuje dotazovanou hranici políčka (hodnoty si definujte své). Funkce vrací true, pokud na zmíněné 
 hranici políčka stojí stěna. 
 
-######3. podúkol
+###### 3. podúkol
 
 Implementujte funkci, která vrátí, která hranice se má po vstupu do bludiště následovat 
 (tj. která má být vedena rukou).
@@ -255,21 +255,21 @@ Přirozeně a obdobně pro hledání pomocí pravidla levé ruky.
 
 # IOS/p1
 
-###Zadanie:
+### Zadanie:
 
-####Popis úlohy
+#### Popis úlohy
 
 Cílem úlohy je vytvořit skript (tzv. wrapper), který bude spouštět textový editor. Skript si bude pamatovat, 
 které soubory byly v jakém adresáři prostřednictvím daného skriptu editovány. Pokud bude skript spuštěn 
 bez parametrů, vybere skript soubor, který má být editován.
 
-####Specifikace chování skriptu
+#### Specifikace chování skriptu
 
-######JMÉNO
+###### JMÉNO
 
     wedi - wrapper textového editoru s možností automatického výběru souboru
 
-######POUŽITÍ
+###### POUŽITÍ
 
     wedi [ADRESÁŘ]
     wedi -m [ADRESÁŘ]
@@ -277,7 +277,7 @@ bez parametrů, vybere skript soubor, který má být editován.
     wedi -l [ADRESÁŘ]
     wedi -b|-a DATUM [ADRESÁŘ]
 
-######POPIS
+###### POPIS
 
     Pokud byl skriptu zadán soubor, bude editován.
     Pokud není argumentem skriptu zadáno jméno editovaného souboru, skript z daného adresáře vybere soubor pro 
@@ -293,19 +293,19 @@ bez parametrů, vybere skript soubor, který má být editován.
     před resp. po zadaném datu. DATUM je formátu YYYY-MM-DD. Jsou zobrazeny soubory, které byly skriptem 
     editovány od daného data včetně.
 
-######NASTAVENÍ A KONFIGURACE
+###### NASTAVENÍ A KONFIGURACE
 
     Skript si pamatuje informace o svém spouštění v souboru, který je dán proměnnou WEDI_RC. Pokud není 
     proměnná nastavena, jedná se o chybu. Formát souboru není specifikován.
     Skript spouští editor, který je nastaven v proměnné EDITOR. Pokud není proměnná EDITOR nastavená, 
     respektuje proměnnou VISUAL. Pokud ani ta není nastavená, jedná se o chybu.
 
-######NÁVRATOVÁ HODNOTA
+###### NÁVRATOVÁ HODNOTA
 
     Skript vrací úspěch v případě úspěšné operace nebo v případě úspěšné editace. Pokud editor vrátí chybu, 
     skript vrátí stejný chybový návratový kód. Interní chyba skriptu bude doprovázena chybovým hlášením.
 
-######POZNÁMKY
+###### POZNÁMKY
 
     Skript nebere v potaz soubory, se kterými dříve počítal a které jsou nyní smazané.
     Při rozhodování relativní cesty adresáře je doporučeno používat reálnou cestu (realpath), např.:
@@ -314,7 +314,7 @@ $ wedi .
 
 $ wedi `pwd`
 
-####Implementační detaily
+#### Implementační detaily
 
     Skript by měl běžet na všech běžných shellech (dash, ksh, bash). Ve školním prostředí můžete použít 
     základní (POSIX) /bin/sh.
@@ -325,14 +325,14 @@ $ wedi `pwd`
 
 # IOS/p2
 
-###Zadanie:
-####Popis úlohy
+### Zadanie:
+#### Popis úlohy
 Implementujte v jazyce C modifikovaný synchronizační problém Building H20. Existují dva typy procesů, kyslík a vodík. 
 Aby se mohly spojit do molekuly vody, musí se počkat na příchod příslušných atomů, tj. jeden atom kyslíku a dva atomy 
 vodíku. Poté se spojí do molekuly vody a proces se opakuje. 
 
-####Detailní specifikace úlohy
-#####Spuštění
+#### Detailní specifikace úlohy
+##### Spuštění
 
 $ ./h2o N GH GO B
 
@@ -344,7 +344,7 @@ kde
     B je maximální hodnota doby (v milisekundách) provádění funkce bond (viz sekce Popis procesů). B >= 0 && B < 5001.
     Všechny parametry jsou celá čísla.
 
-#####Implementační detaily
+##### Implementační detaily
 
     Každému atomu odpovídá jeden proces.
     Hlavní proces vytváří dva pomocné procesy, každý pro generování procesů atomů stejné kategorie
@@ -363,23 +363,23 @@ kde
     Budete-li potřebovat generovat unikátní klíč, je vhodné použít funkci ftok.
     Další funkce a systémová volání: fork, wait, shmat, semctl, semget, shmget, sem_open, usleep, ...
 
-#####Chybové stavy
+##### Chybové stavy
 
     Pokud některý ze vstupů nebude odpovídat očekávanému formátu nebo bude mimo povolený rozsah, program vytiskne 
     chybové hlášení na standardní chybový výstup, uvolní všechny dosud alokované zdroje a ukončí se s kódem (exit code) 1.
     Pokud selže systémové volání, program vytiskne chybové hlášení na standardní chybový výstup, uvolní všechny 
     alokované zdroje a ukončí se s kódem (exit code) 2.
 
-#####Popis procesů a jejich výstupů
+##### Popis procesů a jejich výstupů
 
-######Poznámka k výstupům:
+###### Poznámka k výstupům:
 
     A je pořadové číslo prováděné akce,
     NAME je zkratka kategorie příslušného procesu, tj. H nebo O,
     I je interní identifikátor procesu v rámci příslušné kategorie,
     Při vyhodnocování výstupu budou ignorovány mezery a tabelátory.
     
-######Proces atomu (oxygen i hydrogen)
+###### Proces atomu (oxygen i hydrogen)
 
     Po spuštění tiskne A: NAME I: started.
     Ověřuje stav za následujících podmínek:
@@ -397,7 +397,7 @@ kde
 
 # IJC/DU1
 
-###Zadanie:
+### Zadanie:
 a) V rozhraní "bit-array.h" definujte pro pole bitů:
    Typ:
     ``` typedef BitArray_t```
@@ -541,9 +541,9 @@ b) Napište modul "error.c" s rozhraním v "error.h", který definuje
 
 # IJC/DU2
 
-###Zadanie:
+### Zadanie:
 
-#####1) (max 5b)
+##### 1) (max 5b)
 a) V jazyku C napište program "tail.c", který ze zadaného 
 vstupního souboru vytiskne posledních 10 řádků. Není-li 
 zadán vstupní soubor, čte ze stdin. Je-li programu zadán 
@@ -731,7 +731,7 @@ Tento program otestujte se stejnými vstupy jako u staticky sestavené verze.
 
 # IPP/JSN
 
-###Zadanie:
+### Zadanie:
 Vytvořte skript pro konverzi JSON formátu (viz RFC 4627) do XML. Každému prvku z JSON formátu 
 (objekt, pole, dvojice jméno-hodnota) bude odpovídat jeden párový element se jménem podle jména dvojice 
 a obsahem podle hodnoty dvojice. Každé pole bude obaleno párovým elementem <array> a každý prvek pole bude obalen 
@@ -775,7 +775,7 @@ Tento skript bude pracovat s těmito parametry:
 
 # IPP/MKA
 
-###Zadanie:
+### Zadanie:
 Vytvořte skript pro zpracování a případnou minimalizaci konečného automatu. Skript bude zpracov-
 ávat textový zápis zadaného konečného automatu, validovat, že je dobře specifikovaný, a generovat
 ekvivalentní minimální konečný automat přesně podle algoritmu z 11. přednášky (snímek 23/35)
