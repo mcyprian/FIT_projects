@@ -57,6 +57,7 @@ chybovým hlášením na příslušný výstup a odpovídajícím návratovým k
 
 ### Zadanie:
 #### Popis projektu
+
 Implementujte výpočet vzdálenosti a výšky měřeného objektu pomocí údajů ze senzorů 
 natočení měřicího přístroje. Výpočet proveďte pouze pomocí matematických operací ``+``,``-``,``*``,``/``. 
 
@@ -76,11 +77,11 @@ nebo
 
 #### Argumenty programu:
 
-    --help způsobí, že program vytiskne nápovědu používání programu a skončí.
-    --tan srovná přesnosti výpočtu tangens úhlu A (v radiánech) mezi voláním tan z matematické knihovny, 
+* ``--help`` způsobí, že program vytiskne nápovědu používání programu a skončí.
+* ``--tan`` srovná přesnosti výpočtu tangens úhlu A (v radiánech)             mezi voláním tan z matematické knihovny, 
         a výpočtu tangens pomocí Taylorova polynomu a zřetězeného zlomku. Argumenty N a M udávají, ve kterých
         iteracích iteračního výpočtu má srovnání probíhat. 0 < N <= M < 14
-    -m vypočítá a změří vzdálenosti.
+* ``-m`` vypočítá a změří vzdálenosti.
         Úhel α (viz obrázek) je dán argumentem A v radiánech. Program vypočítá a vypíše vzdálenost měřeného 
         objektu. 0 < A <= 1.4 < π/2.
         Pokud je zadán, úhel β udává argument B v radiánech. Program vypočítá a vypíše i výšku měřeného objektu. 
@@ -572,7 +573,7 @@ Použijte funkci
 a vhodný STL kontejner (např. std::queue<string>). 
 Poznámka: Pro zrychlení použijte std::ios::sync_with_stdio(false); 
 
-#####2) (max 10b) 
+##### 2) (max 10b) 
 Přepište následující C++ program do jazyka ISO C 
 ```
 // wordcount-.cc // Použijte GCC>=4.7: g++ -std=c++11 
